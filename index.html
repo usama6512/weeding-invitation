@@ -202,6 +202,194 @@
     z-index: -1;
     pointer-events: none;
   }
+
+  /* ======================================================
+     MOBILE ONLY (max-width: 768px) — natural scrolling fixes.
+     Desktop rules above are untouched.
+     ====================================================== */
+  @media (max-width: 768px) {
+    /* 1. Disable scroll-snapping on mobile so scrolling is normal,
+          smooth and natural (no snap-jumps between sections). */
+    html, body, .screen {
+      scroll-snap-type: none !important;
+      scroll-behavior: auto;
+    }
+
+    /* 2. Events section (Mehendi / Barat / Dawat-e-Walima):
+          tighter height & padding on phones so it never jumps abruptly. */
+    #screen-1 > div {
+      padding-top: 2.5rem;      /* was py-16 = 4rem */
+      padding-bottom: 2.5rem;
+    }
+    #screen-1 .my-8 {
+      margin-top: 1.5rem;       /* was 2rem */
+      margin-bottom: 1.5rem;
+    }
+    #screen-1 .gap-7 {
+      gap: 1rem;                /* was 1.75rem between stacked cards */
+    }
+    #screen-1 .text-center.mb-4 {
+      margin-bottom: 0.75rem;   /* was 1rem under each event heading */
+    }
+
+    /* Guest & admin modals — tighter padding on phones */
+    .modal-card { padding: 28px 18px 24px !important; }
+    .modal-title { font-size: 1.55rem !important; }
+    .link-row { flex-direction: column; }
+    .copy-btn { width: 100%; justify-content: center; }
+    .preview-row { flex-direction: column; }
+    .chip { font-size: 12px; padding: 7px 12px; }
+  }
+
+  /* ===== Guest welcome + #admin link generator modals (dark purple glass) ===== */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    background: rgba(10, 5, 20, 0.72);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    opacity: 0; visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+  .modal-overlay.show { opacity: 1; visibility: visible; }
+  #admin-modal { z-index: 110; }
+
+  .modal-card {
+    position: relative; width: 100%; max-width: 440px;
+    max-height: 88vh; overflow-y: auto;
+    padding: 36px 28px 30px; border-radius: 22px;
+    background: linear-gradient(160deg, rgba(61, 42, 84, 0.78), rgba(26, 14, 46, 0.92));
+    border: 1px solid rgba(232, 180, 212, 0.2);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(254,243,248,0.06);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    transform: translateY(16px) scale(0.98);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-align: center;
+  }
+  .modal-overlay.show .modal-card { transform: translateY(0) scale(1); }
+  .modal-card::-webkit-scrollbar { width: 4px; }
+  .modal-card::-webkit-scrollbar-thumb { background: rgba(201,168,124,0.35); border-radius: 10px; }
+  .admin-card { text-align: left; }
+
+  .modal-icon-circle {
+    width: 52px; height: 52px; border-radius: 50%;
+    border: 1px solid rgba(232,180,212,0.3);
+    background: rgba(232,180,212,0.07);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .modal-eyebrow {
+    font-family: 'Quicksand', sans-serif; font-size: 10px;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--accent2); margin: 0;
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 400;
+    font-size: 1.9rem; color: var(--text); margin: 10px 0 0; line-height: 1.25;
+  }
+  .honoured-box {
+    margin: 22px 0; padding: 18px 16px; border-radius: 16px;
+    border: 1px solid rgba(232,180,212,0.18);
+    background: rgba(232,180,212,0.05);
+  }
+  .honoured-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.7rem;
+    color: var(--text); margin: 6px 0 0; word-break: break-word;
+  }
+  .modal-desc {
+    font-family: 'Quicksand', sans-serif; font-size: 13.5px;
+    line-height: 1.7; color: rgba(254,243,248,0.75); margin: 14px 0 0;
+  }
+  .modal-desc strong { color: var(--text); font-weight: 600; }
+  .cta-btn {
+    margin-top: 24px; padding: 14px 34px; border-radius: 999px;
+    border: 1px solid rgba(232,180,212,0.45);
+    background: linear-gradient(135deg, rgba(232,180,212,0.18), rgba(232,180,212,0.06));
+    color: var(--accent); font-family: 'Quicksand', sans-serif;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s ease;
+  }
+  .cta-btn:hover { background: linear-gradient(135deg, rgba(232,180,212,0.3), rgba(232,180,212,0.12)); box-shadow: 0 0 24px rgba(232,180,212,0.2); }
+  .modal-underlink {
+    display: block; margin: 18px auto 0; background: none; border: none;
+    color: var(--accent2); font-family: 'Quicksand', sans-serif; font-size: 12px;
+    text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+    opacity: 0.85; transition: opacity 0.25s ease;
+  }
+  .modal-underlink:hover { opacity: 1; color: var(--accent); }
+
+  .modal-top-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .modal-chip {
+    font-family: 'Quicksand', sans-serif; font-size: 10.5px; letter-spacing: 0.1em;
+    color: var(--accent); background: rgba(232,180,212,0.12);
+    border: 1px solid rgba(232,180,212,0.3); padding: 5px 11px; border-radius: 8px;
+  }
+  .modal-x {
+    width: 34px; height: 34px; min-width: 34px; border-radius: 50%;
+    border: 1px solid rgba(232,180,212,0.25); background: rgba(232,180,212,0.06);
+    color: var(--accent2); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.25s ease;
+  }
+  .modal-x:hover { color: var(--accent); border-color: rgba(232,180,212,0.5); }
+  .modal-label {
+    display: block; font-family: 'Quicksand', sans-serif; font-size: 10.5px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent2);
+    margin: 18px 0 8px; text-align: left;
+  }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: 'Quicksand', sans-serif; font-size: 12.5px;
+    border: 1px solid rgba(232,180,212,0.25); background: rgba(232,180,212,0.07);
+    color: var(--text); border-radius: 999px; padding: 8px 15px;
+    cursor: pointer; transition: all 0.25s ease;
+  }
+  .chip:hover { border-color: rgba(232,180,212,0.55); background: rgba(232,180,212,0.14); }
+  .modal-input {
+    width: 100%; box-sizing: border-box; padding: 13px 16px; border-radius: 12px;
+    border: 1px solid rgba(232,180,212,0.22); background: rgba(10,5,20,0.45);
+    color: var(--text); font-family: 'Quicksand', sans-serif; font-size: 15px;
+    outline: none; transition: border 0.25s ease, box-shadow 0.25s ease;
+  }
+  .modal-input::placeholder { color: rgba(254,243,248,0.35); }
+  .modal-input:focus { border-color: rgba(232,180,212,0.55); box-shadow: 0 0 0 3px rgba(232,180,212,0.12); }
+  .link-row { display: flex; gap: 10px; align-items: stretch; }
+  .link-input { flex: 1; min-width: 0; font-size: 13px; color: var(--accent2); }
+  .copy-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 18px; border: none; border-radius: 12px; white-space: nowrap;
+    background: linear-gradient(135deg, #8b5cf6, #a855f7); color: #fff;
+    font-family: 'Quicksand', sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: filter 0.25s ease, transform 0.15s ease;
+  }
+  .copy-btn:hover { filter: brightness(1.1); }
+  .copy-btn:active { transform: scale(0.97); }
+  .preview-row { display: flex; gap: 10px; margin-top: 22px; }
+  .ghost-btn {
+    flex: 1; padding: 13px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid rgba(232,180,212,0.3); background: rgba(232,180,212,0.06);
+    color: var(--accent); font-family: 'Quicksand', sans-serif; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; transition: all 0.25s ease;
+  }
+  .ghost-btn:hover { background: rgba(232,180,212,0.14); border-color: rgba(232,180,212,0.5); }
+
+  /* Hero personalized badge (only shown with ?guest=) */
+  #guest-badge { display: none; }
+  #guest-badge.show {
+    display: block; animation: guestBadgeIn 0.8s ease 0.3s both;
+    margin-top: 4px; margin-bottom: -4px;
+  }
+  .guest-badge-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 15px; border-radius: 999px;
+    border: 1px solid rgba(232,180,212,0.3);
+    background: rgba(232,180,212,0.08); color: var(--accent);
+    font-family: 'Quicksand', sans-serif; font-size: 10.5px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  @keyframes guestBadgeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 </style>
   <style>body { box-sizing: border-box; }</style>
    </head>
@@ -237,6 +425,7 @@
        <path d="M30 5 C30 5, 45 15, 45 25 C45 35, 30 40, 30 40 C30 40, 15 35, 15 25 C15 15, 30 5, 30 5Z" stroke="#c9a87c" stroke-width="0.8" fill="none" /> <path d="M30 12 C30 12, 40 19, 40 26 C40 33, 30 36, 30 36 C30 36, 20 33, 20 26 C20 19, 30 12, 30 12Z" stroke="#c9a87c" stroke-width="0.5" fill="rgba(201,168,124,0.05)" />
       </svg>
      </div>
+     <div id="guest-badge"><span class="guest-badge-pill">Especially for <bdi id="guest-badge-name" dir="auto"></bdi></span></div>
      <p id="el-welcome-msg" class="font-body text-xs tracking-[0.3em] uppercase mt-6 fade-up" style="color: var(--accent2); transition-delay:0.4s;">Together with their families</p>
      <div class="my-6 fade-scale" style="transition-delay:0.7s;">
       <h1 class="font-heading font-light shimmer" style="font-size: 3rem; line-height: 1.1;"><span id="el-groom-welcome">Ahmad</span></h1>
@@ -363,6 +552,7 @@
    <div id="screen-2" class="screen">
     <div class="min-h-full flex flex-col items-center justify-center px-6 py-16 text-center">
      <h3 class="font-heading text-2xl fade-up" style="color:var(--accent); transition-delay:0.2s;">Join Our Celebration</h3>
+     <p id="guest-invite-line" class="font-body text-sm fade-up mt-2" style="color:var(--accent2); transition-delay:0.25s;">You are warmly invited to celebrate with us</p>
      <div class="ornament-line mx-auto mt-3 mb-8 fade-up" style="transition-delay:0.3s;"></div>
      <div class="w-full max-w-xs space-y-4">
       <!-- Location --> <a id="el-maps-link" href="https://www.google.com/maps/place/Taj+Mahal+Marriage+Hall,+Chichawatni+Sahiwal/@30.5198465,72.6911329,17z/data=!3m1!4b1!4m6!3m5!1s0x39232a0bef52112b:0x74b28c727c08df37!8m2!3d30.5198465!4d72.6911329!16s%2Fg%2F1tqcjlw7?entry=ttu&amp;g_ep=EgoyMDI2MTEwNC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="fade-up flex items-center gap-4 w-full px-5 py-4 rounded-2xl text-left" style="background:rgba(201,168,124,0.08); border:1px solid rgba(201,168,124,0.15); transition-delay:0.4s; text-decoration:none; color:var(--text);">
@@ -456,6 +646,52 @@
     </div>
    </div>
   </div>
+
+  <!-- ============ GUEST WELCOME MODAL (?guest=) ============ -->
+  <div id="welcome-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
+   <div class="modal-card welcome-card">
+    <div class="modal-icon-circle"><i data-lucide="droplet" style="width:22px;height:22px;color:var(--accent);"></i></div>
+    <p class="modal-eyebrow">Personal Invitation</p>
+    <h2 id="welcome-title" class="modal-title">You Have Been Invited</h2>
+    <div class="honoured-box">
+     <p class="modal-eyebrow">Honoured Guest</p>
+     <p class="honoured-name"><bdi id="welcome-guest-name" dir="auto"></bdi></p>
+    </div>
+    <p class="modal-desc">We would be delighted by your presence at the wedding celebrations of <strong id="welcome-couple">Ahmad &amp; Ayesha</strong>.</p>
+    <button id="open-invitation-btn" class="cta-btn btn-glow">Open Invitation</button>
+    <button id="welcome-admin-link" class="modal-underlink" type="button">Test another guest name in #admin &rarr;</button>
+   </div>
+  </div>
+
+  <!-- ============ #admin GUEST LINK GENERATOR ============ -->
+  <div id="admin-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="admin-title">
+   <div class="modal-card admin-card">
+    <div class="modal-top-row">
+     <span class="modal-chip">URL Hash Trigger: #admin</span>
+     <button id="admin-close-btn" class="modal-x" type="button" aria-label="Close"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+    </div>
+    <h2 id="admin-title" class="modal-title" style="margin-top:14px;">Guest Link Generator</h2>
+    <p class="modal-desc">Enter the guest's name in <strong>English</strong> or <strong>&#1575;&#1585;&#1583;&#1608; (Urdu)</strong>. This will generate a custom invitation link and update all preview screens automatically.</p>
+    <span class="modal-label" style="margin-top:20px;">Quick test examples:</span>
+    <div class="chip-row">
+     <button class="chip" type="button" data-guest="Mr. Ahmed">Mr. Ahmed</button>
+     <button class="chip" type="button" data-guest="Dr. Salman &amp; Family">Dr. Salman &amp; Family</button>
+     <button class="chip" type="button" dir="auto" data-guest="&#1580;&#1606;&#1575;&#1576; &#1575;&#1581;&#1605;&#1583; &#1589;&#1575;&#1581;&#1576; &#1605;&#1593; &#1601;&#1740;&#1605;&#1604;&#1740;">&#1580;&#1606;&#1575;&#1576; &#1575;&#1581;&#1605;&#1583; &#1589;&#1575;&#1581;&#1576; &#1605;&#1593; &#1601;&#1740;&#1605;&#1604;&#1740;</button>
+    </div>
+    <label class="modal-label" for="admin-input">Guest Name (English or Urdu)</label>
+    <input id="admin-input" class="modal-input" type="text" dir="auto" autocomplete="off" placeholder="e.g. Mr. Ahmed — or &#1575;&#1585;&#1583;&#1608; &#1605;&#1740;&#1606; &#1606;&#1575;&#1605; &#1604;&#1603;&#1607;&#1711;&#1604;&#1740;">
+    <label class="modal-label" for="admin-link">Generated Personalized Link</label>
+    <div class="link-row">
+     <input id="admin-link" class="modal-input link-input" type="text" readonly dir="ltr">
+     <button id="copy-link-btn" class="copy-btn" type="button"><i data-lucide="copy" style="width:15px;height:15px;"></i><span>Copy Link</span></button>
+    </div>
+    <div class="preview-row">
+     <button id="preview-popup-btn" class="ghost-btn" type="button">Preview Popup Screen</button>
+     <button id="preview-site-btn" class="ghost-btn" type="button">Preview Invitation Screens</button>
+    </div>
+   </div>
+  </div>
+
   <script>
   // ============ STATE ============
   let currentScreen = 0;
@@ -463,6 +699,10 @@
   let musicPlaying = false;
   let audioCtx = null;
   let gainNode = null;
+  let melodyTimer = null;              // pending loop timer (cleared on pause)
+  let activeOscs = [];                 // oscillators scheduled by current melody
+  let musicWasPlayingBeforeHide = false; // user preference: music was ON
+  let musicManuallyMuted = false;        // user tapped mute — don't auto-restart
 
   const defaultConfig = {
     bride_name: 'Ayesha',
@@ -675,28 +915,280 @@
         env.gain.exponentialRampToValueAtTime(0.01, time + n.d - 0.05);
         osc.connect(env);
         env.connect(gainNode);
+        activeOscs.push(osc);
+        osc.onended = () => {
+          const i = activeOscs.indexOf(osc);
+          if (i !== -1) activeOscs.splice(i, 1);
+        };
         osc.start(time);
         osc.stop(time + n.d);
       }
       time += n.d;
     });
-    setTimeout(() => { if (musicPlaying) playMelody(); }, time * 1000 - audioCtx.currentTime * 1000 + 200);
+    if (melodyTimer) { clearTimeout(melodyTimer); melodyTimer = null; }
+    melodyTimer = setTimeout(() => {
+      melodyTimer = null;
+      if (musicPlaying) playMelody();
+    }, time * 1000 - audioCtx.currentTime * 1000 + 200);
   }
 
   function toggleMusic() {
     const btn = document.getElementById('music-btn');
     if (musicPlaying) {
       musicPlaying = false;
+      musicManuallyMuted = true;
       if (gainNode) gainNode.gain.value = 0;
       btn.innerHTML = '<i data-lucide="volume-x" style="width:18px;height:18px;color:var(--accent);"></i>';
     } else {
       musicPlaying = true;
+      musicManuallyMuted = false;
       if (gainNode) gainNode.gain.value = 0.12;
       if (!audioCtx) startMusic();
       else playMelody();
       btn.innerHTML = '<i data-lucide="volume-2" style="width:18px;height:18px;color:var(--accent);"></i>';
     }
     lucide.createIcons();
+  }
+
+  // ============ AUTO-PAUSE WHEN TAB IS HIDDEN (Page Visibility API) ============
+  // Music MUST stop immediately when the user switches tabs, minimizes the
+  // browser, switches to another app (window blur), or leaves the page.
+  // Set to false to keep the music paused when the user comes back.
+  const RESUME_MUSIC_ON_RETURN = true;
+
+  function updateMusicButton(on) {
+    const btn = document.getElementById('music-btn');
+    if (!btn) return;
+    btn.innerHTML = on
+      ? '<i data-lucide="volume-2" style="width:18px;height:18px;color:var(--accent);"></i>'
+      : '<i data-lucide="volume-x" style="width:18px;height:18px;color:var(--accent);"></i>';
+    lucide.createIcons();
+  }
+
+  function pauseMusicForHide() {
+    // 1) stop the looping timer so no new notes get scheduled
+    if (melodyTimer) { clearTimeout(melodyTimer); melodyTimer = null; }
+    // 2) silence immediately
+    if (gainNode) { try { gainNode.gain.value = 0; } catch(e) {} }
+    // 3) kill any notes already scheduled by the current melody
+    for (let i = 0; i < activeOscs.length; i++) {
+      try { activeOscs[i].stop(); } catch(e) {}
+    }
+    activeOscs.length = 0;
+    // 4) suspend the audio context (guarantees zero sound + saves battery)
+    if (audioCtx && audioCtx.state === 'running') {
+      try { const p = audioCtx.suspend(); if (p && p.catch) p.catch(function(){}); } catch(e) {}
+    }
+    // 5) remember user preference (it was ON) and update the button
+    if (musicPlaying) {
+      musicWasPlayingBeforeHide = true;
+      musicPlaying = false;
+      updateMusicButton(false);
+    }
+  }
+
+  function resumeMusicAfterShow() {
+    // Always wake the context so the button works normally after returning
+    if (audioCtx) {
+      try { const p = audioCtx.resume(); if (p && p.catch) p.catch(function(){}); } catch(e) {}
+    }
+    // Resume playback only if it was on before leaving (and preference allows)
+    if (!RESUME_MUSIC_ON_RETURN || !musicWasPlayingBeforeHide) return;
+    musicWasPlayingBeforeHide = false;
+    musicPlaying = true;
+    if (gainNode) { try { gainNode.gain.value = 0.12; } catch(e) {} }
+    playMelody();
+    updateMusicButton(true);
+  }
+
+  // Tab switched away / window minimized / page hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') pauseMusicForHide();
+    else resumeMusicAfterShow();
+  });
+  // Browser window lost focus (switched to another application)
+  window.addEventListener('blur', pauseMusicForHide);
+  window.addEventListener('focus', resumeMusicAfterShow);
+  // Navigating away from the page, and back (bfcache restore)
+  window.addEventListener('pagehide', pauseMusicForHide);
+  window.addEventListener('pageshow', resumeMusicAfterShow);
+
+  // ============ GUEST PERSONALIZATION (?guest=) & #admin GENERATOR ============
+  let guestName = '';
+  try {
+    const raw = new URLSearchParams(window.location.search).get('guest');
+    if (raw) {
+      guestName = raw.replace(/[\u0000-\u001F\u007F]/g, '').replace(/\s+/g, ' ').trim().slice(0, 80);
+    }
+  } catch (e) {}
+
+  const welcomeModal = document.getElementById('welcome-modal');
+  const adminModal = document.getElementById('admin-modal');
+  const guestBadge = document.getElementById('guest-badge');
+  const guestBadgeName = document.getElementById('guest-badge-name');
+  const inviteLine = document.getElementById('guest-invite-line');
+  const welcomeGuestName = document.getElementById('welcome-guest-name');
+  const adminInput = document.getElementById('admin-input');
+  const adminLink = document.getElementById('admin-link');
+
+  function applyGuestToScreens() {
+    // Hero badge
+    if (guestName) {
+      guestBadgeName.textContent = guestName;
+      guestBadge.classList.add('show');
+    } else {
+      guestBadge.classList.remove('show');
+    }
+    // "Join Our Celebration" line (generic when no guest)
+    inviteLine.textContent = '';
+    if (guestName) {
+      const bdi = document.createElement('bdi');
+      bdi.setAttribute('dir', 'auto');
+      bdi.style.color = 'var(--text)';
+      bdi.style.fontWeight = '600';
+      bdi.textContent = guestName;
+      inviteLine.appendChild(bdi);
+      inviteLine.appendChild(document.createTextNode(', you are warmly invited to celebrate with us'));
+    } else {
+      inviteLine.textContent = 'You are warmly invited to celebrate with us';
+    }
+    // Welcome modal name + couple line
+    welcomeGuestName.textContent = guestName;
+    const g = document.getElementById('el-groom-welcome');
+    const b = document.getElementById('el-bride-welcome');
+    document.getElementById('welcome-couple').textContent =
+      (g ? g.textContent : 'Ahmad') + ' & ' + (b ? b.textContent : 'Ayesha');
+  }
+
+  function buildGuestUrl(name) {
+    const base = (window.location.origin && window.location.origin !== 'null')
+      ? window.location.origin + window.location.pathname
+      : window.location.href.split(/[?#]/)[0];
+    return base + '?guest=' + encodeURIComponent((name || '').trim());
+  }
+  function refreshGeneratedLink() {
+    adminLink.value = buildGuestUrl(adminInput.value);
+  }
+
+  function showWelcome() { welcomeModal.classList.add('show'); }
+  function hideWelcome() { welcomeModal.classList.remove('show'); }
+  function isHashAdmin() { return String(window.location.hash || '').toLowerCase() === '#admin'; }
+  function openAdmin() {
+    adminModal.classList.add('show');
+    refreshGeneratedLink();
+    setTimeout(function () { try { adminInput.focus({ preventScroll: true }); } catch (e) { adminInput.focus(); } }, 350);
+  }
+  function closeAdmin() {
+    adminModal.classList.remove('show');
+    if (isHashAdmin()) {
+      try { history.replaceState(null, '', window.location.pathname + window.location.search); }
+      catch (e) { window.location.hash = ''; }
+    }
+  }
+
+  function flashCopied() {
+    const btn = document.getElementById('copy-link-btn');
+    btn.innerHTML = '<i data-lucide="check" style="width:15px;height:15px;"></i><span>Copied!</span>';
+    lucide.createIcons();
+    setTimeout(function () {
+      btn.innerHTML = '<i data-lucide="copy" style="width:15px;height:15px;"></i><span>Copy Link</span>';
+      lucide.createIcons();
+    }, 2000);
+  }
+  function legacyCopy(text) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      ta.setSelectionRange(0, text.length);
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      flashCopied();
+    } catch (e) {}
+  }
+  function copyLink() {
+    const text = adminLink.value;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(flashCopied).catch(function () { legacyCopy(text); });
+    } else { legacyCopy(text); }
+  }
+
+  function openInvitation() {
+    hideWelcome();
+    try {
+      // Clean melody restart — avoids stacked notes if the AudioContext
+      // was autoplay-suspended while the guest link sat open.
+      if (melodyTimer) { clearTimeout(melodyTimer); melodyTimer = null; }
+      for (let i = 0; i < activeOscs.length; i++) { try { activeOscs[i].stop(); } catch (e) {} }
+      activeOscs.length = 0;
+      if (audioCtx && audioCtx.state === 'suspended') {
+        const p = audioCtx.resume(); if (p && p.catch) p.catch(function () {});
+      }
+      if (!musicPlaying && !musicManuallyMuted) {
+        musicPlaying = true;
+        if (gainNode) gainNode.gain.value = 0.12;
+        updateMusicButton(true);
+      }
+      if (musicPlaying) playMelody();
+    } catch (e) {}
+  }
+
+  function normalizeGuestInput() {
+    return (adminInput.value || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+  }
+
+  // --- Welcome modal wiring ---
+  document.getElementById('open-invitation-btn').addEventListener('click', openInvitation);
+  document.getElementById('welcome-admin-link').addEventListener('click', function () {
+    window.location.hash = 'admin'; // fires hashchange -> openAdmin
+  });
+
+  // --- Admin modal wiring ---
+  document.getElementById('admin-close-btn').addEventListener('click', closeAdmin);
+  document.getElementById('copy-link-btn').addEventListener('click', copyLink);
+  adminModal.addEventListener('click', function (e) { if (e.target === adminModal) closeAdmin(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && adminModal.classList.contains('show')) closeAdmin();
+  });
+  document.querySelectorAll('#admin-modal .chip').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      adminInput.value = chip.getAttribute('data-guest') || '';
+      adminInput.dispatchEvent(new Event('input'));
+    });
+  });
+  adminInput.addEventListener('input', function () {
+    refreshGeneratedLink();
+    guestName = normalizeGuestInput();
+    applyGuestToScreens();
+  });
+  document.getElementById('preview-popup-btn').addEventListener('click', function () {
+    guestName = normalizeGuestInput();
+    applyGuestToScreens();
+    closeAdmin();
+    showWelcome();
+  });
+  document.getElementById('preview-site-btn').addEventListener('click', function () {
+    guestName = normalizeGuestInput();
+    applyGuestToScreens();
+    closeAdmin();
+    hideWelcome();
+    goToScreen(0);
+  });
+
+  // --- #admin hash listener (initial load + hashchange) ---
+  function handleAdminHash() {
+    if (isHashAdmin()) openAdmin();
+    else adminModal.classList.remove('show');
+  }
+  window.addEventListener('hashchange', handleAdminHash);
+
+  // --- Initial apply ---
+  applyGuestToScreens();
+  refreshGeneratedLink();
+  handleAdminHash();
+  if (guestName) {
+    requestAnimationFrame(function () { requestAnimationFrame(showWelcome); });
   }
 
   // ============ INIT ============
@@ -710,10 +1202,13 @@
     });
   }, 300);
 
-  // Touch swipe support
+  // Touch swipe support — DISABLED on mobile (max-width: 768px) so touch
+  // scrolling stays natural and never jumps to another section mid-read.
+  // Desktop (>768px) behaviour is unchanged. Navigate via dots & buttons.
   let touchStartY = 0;
   document.addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; });
   document.addEventListener('touchend', e => {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
     const diff = touchStartY - e.changedTouches[0].clientY;
     if (Math.abs(diff) > 60) {
       if (diff > 0 && currentScreen < 4) goToScreen(currentScreen + 1);
@@ -724,6 +1219,5 @@
   startMusic();
   lucide.createIcons();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5863f68cb7a909b',t:'MTc5NDMyNjE5MQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5863f68cb7a909b',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","spa":2}' crossorigin="anonymous"></script>
-</body>
+ </body>
 </html>
